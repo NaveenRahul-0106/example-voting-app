@@ -1,0 +1,38 @@
+version: "3"
+services:
+  vote:
+    image: naveenrahul0106/vote
+    ports:
+      - 80
+    command: python app.py
+    depends_on:
+      - redis
+
+  result:
+    image: naveenrahul0106/result
+    ports:
+      - 3001:80
+    entrypoint: nodemon server.js
+    depends_on:
+      - db
+  worker:
+    image: naveenrahul0106/worker
+    depends_on:
+      - redis
+      - db
+  redis:
+    image: redis:alpine
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+
+  nginx_reverse_proxy:
+    image: my_nginx_reverse_proxy
+    ports:
+      - 80:80
+    depends_on:
+      - vote
+
+
