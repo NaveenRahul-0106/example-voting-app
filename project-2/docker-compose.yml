@@ -1,0 +1,13 @@
+version: "3"
+services:
+  service1:
+    image: my_nginx_with_ip 
+    ports:
+      - 80
+
+  service2:
+    image: nginx:latest
+    ports:
+      - 80:80
+
+
